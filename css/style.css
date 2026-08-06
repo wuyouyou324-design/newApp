@@ -179,9 +179,14 @@ body {
   flex-grow: 1;
 }
 
-.captured-icons svg {
-  width: 24px;
-  height: 24px;
+.captured-piece {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "DejaVu Sans", sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
 }
 
 .score-diff {
@@ -276,17 +281,31 @@ body {
   align-items: center;
   transition: transform var(--piece-transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: auto;
-}
-
-.piece svg {
-  width: 90%;
-  height: 90%;
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "DejaVu Sans", sans-serif;
+  font-size: clamp(24px, 8.5vw, 52px);
+  user-select: none;
+  line-height: 1;
 }
 
 .piece.dragging {
   cursor: grabbing;
   z-index: 100;
   transition: none !important;
+}
+
+/* Unicode Chess Piece Colors */
+[data-color="w"] {
+  color: #FFFFFF;
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+     0 2px 4px rgba(0,0,0,0.4);
+}
+
+[data-color="b"] {
+  color: #111111;
 }
 
 /* Highlights overlay */
@@ -710,9 +729,11 @@ input:checked + .slider:before {
   transform: translateY(-2px);
 }
 
-.promotion-choice svg {
-  width: 80%;
-  height: 80%;
+.promotion-choice {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "DejaVu Sans", sans-serif;
+  font-size: 40px;
+  line-height: 1;
+  user-select: none;
 }
 
 /* Utility / Helpers */

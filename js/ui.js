@@ -4,7 +4,7 @@
  * and CSS smooth piece transition animations with the standard game state model.
  */
 
-import { PIECE_SVGS } from './constants.js';
+import { PIECE_UNICODE } from './constants.js';
 import { audio } from './audio.js';
 
 export class ChessUI {
@@ -148,7 +148,7 @@ export class ChessUI {
         if (piece) {
           const pieceEl = document.createElement('div');
           pieceEl.className = 'piece';
-          pieceEl.innerHTML = PIECE_SVGS[piece.color][piece.type];
+          pieceEl.textContent = PIECE_UNICODE[piece.color][piece.type];
           pieceEl.dataset.type = piece.type;
           pieceEl.dataset.color = piece.color;
           // Ensure piece is grabable if it is current player's turn and not AI controlled
@@ -368,7 +368,8 @@ export class ChessUI {
       choices.forEach(choice => {
         const div = document.createElement('div');
         div.className = 'promotion-choice';
-        div.innerHTML = PIECE_SVGS[color][choice.type];
+        div.textContent = PIECE_UNICODE[color][choice.type];
+        div.dataset.color = color;
         div.title = choice.label;
         div.addEventListener('click', () => {
           this.promotionModal.classList.remove('active');
@@ -449,12 +450,11 @@ export class ChessUI {
     const renderCaptured = (container, scoreEl, piecesList, color, sideLabel) => {
       container.innerHTML = '';
       piecesList.forEach(type => {
-        const svgWrapper = document.createElement('div');
-        svgWrapper.style.width = '20px';
-        svgWrapper.style.height = '20px';
-        svgWrapper.style.opacity = '0.7';
-        svgWrapper.innerHTML = PIECE_SVGS[color][type];
-        container.appendChild(svgWrapper);
+        const capturedPiece = document.createElement('div');
+        capturedPiece.className = 'captured-piece';
+        capturedPiece.dataset.color = color;
+        capturedPiece.textContent = PIECE_UNICODE[color][type];
+        container.appendChild(capturedPiece);
       });
     };
 
