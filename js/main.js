@@ -225,10 +225,25 @@ class ChessAppController {
   /**
    * Initializes a brand-new pristine chess session
    */
+  setAIThinking(thinking) {
+    this.isAIThinking = thinking;
+    const mascot = document.getElementById('astra-mascot');
+    if (mascot) {
+      if (thinking) {
+        mascot.classList.add('thinking');
+      } else {
+        mascot.classList.remove('thinking');
+      }
+    }
+  }
+
+  /**
+   * Initializes a brand-new pristine chess session
+   */
   startFreshGame(mode) {
     this.game.reset();
     this.gameMode = mode;
-    this.isAIThinking = false;
+    this.setAIThinking(false);
 
     if (mode === 'pve') {
       // Establish player color
@@ -411,12 +426,12 @@ class ChessAppController {
    */
   async triggerAIMove() {
     if (this.isAIThinking) return;
-    this.isAIThinking = true;
+    this.setAIThinking(true);
 
     // Use depth map based on easy, medium, hard setup
     // Easy = Depth 1, Medium = Depth 2, Hard = Depth 3
     const bestMove = await ChessAI.getBestMove(this.game, this.aiDifficulty);
-    this.isAIThinking = false;
+    this.setAIThinking(false);
 
     if (bestMove) {
       this.handleMoveExecution(bestMove, 'q'); // AI always promotes to Queen

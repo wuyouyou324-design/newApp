@@ -195,6 +195,14 @@ body {
   color: #10b981;
 }
 
+/* Board Container Layout with Mascot */
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 /* Board Board Board */
 .board-wrapper {
   display: flex;
@@ -202,6 +210,212 @@ body {
   align-items: center;
   position: relative;
   user-select: none;
+}
+
+/* Astra Mascot Container */
+.astra-cat {
+  position: relative;
+  width: 140px;
+  height: 180px;
+  background-color: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cat-body-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Head */
+.cat-head {
+  position: absolute;
+  top: 45px;
+  left: 45px;
+  width: 50px;
+  height: 40px;
+  border: 2px solid #ffffff;
+  background-color: #000000;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+/* Torso */
+.cat-torso {
+  position: absolute;
+  top: 83px;
+  left: 40px;
+  width: 60px;
+  height: 65px;
+  border: 2px solid #ffffff;
+  border-radius: 4px 4px 12px 12px;
+  background-color: #000000;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+/* Ears */
+.cat-ear {
+  position: absolute;
+  top: -12px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ffffff;
+  background-color: #000000;
+  box-sizing: border-box;
+}
+.ear-left {
+  left: 6px;
+  transform: rotate(-15deg);
+}
+.ear-right {
+  right: 6px;
+  transform: rotate(15deg);
+}
+
+/* Eyes */
+.cat-eyes {
+  position: absolute;
+  top: 14px;
+  left: 8px;
+  width: 34px;
+  height: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.cat-eye {
+  width: 8px;
+  height: 8px;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+  position: relative;
+}
+.cat-eye::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 2px;
+  height: 2px;
+  background-color: #ffffff;
+}
+
+/* Snout */
+.cat-snout {
+  position: absolute;
+  bottom: 8px;
+  left: 22px;
+  width: 6px;
+  height: 4px;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+}
+
+/* Tail */
+.cat-tail {
+  position: absolute;
+  top: 95px;
+  left: 92px;
+  width: 12px;
+  height: 45px;
+  border: 2px solid #ffffff;
+  border-radius: 6px 6px 0 0;
+  border-bottom: none;
+  box-sizing: border-box;
+  transform-origin: bottom center;
+  z-index: 1;
+  animation: sway-tail 4s ease-in-out infinite;
+}
+
+/* Particles */
+.cat-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  opacity: 0;
+}
+.p1 { top: 30px; left: 25px; }
+.p2 { top: 50px; right: 25px; }
+.p3 { bottom: 60px; left: 20px; }
+
+/* Keyframes Animations */
+@keyframes sway-tail {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(12deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes thinking-ear-left {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(-25deg) translateY(-2px); }
+}
+@keyframes thinking-ear-right {
+  0%, 100% { transform: rotate(15deg); }
+  50% { transform: rotate(25deg) translateY(-2px); }
+}
+
+@keyframes thinking-eyes {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 0); }
+  50% { transform: translate(0, -1px); }
+  75% { transform: translate(2px, 0); }
+}
+
+@keyframes thinking-tail {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-25deg); }
+}
+
+@keyframes particle-float-1 {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
+}
+@keyframes particle-float-2 {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-25px) scale(1.2); opacity: 0; }
+}
+
+/* Active thinking animations */
+.thinking .ear-left {
+  animation: thinking-ear-left 1.2s ease-in-out infinite;
+}
+.thinking .ear-right {
+  animation: thinking-ear-right 1.2s ease-in-out infinite;
+}
+.thinking .cat-eye {
+  animation: thinking-eyes 1.6s ease-in-out infinite;
+}
+.thinking .cat-tail {
+  animation: thinking-tail 0.8s ease-in-out infinite;
+}
+.thinking .p1 {
+  animation: particle-float-1 2s infinite ease-in-out;
+}
+.thinking .p2 {
+  animation: particle-float-2 2.5s infinite ease-in-out 0.5s;
+}
+.thinking .p3 {
+  animation: particle-float-1 2.2s infinite ease-in-out 1s;
 }
 
 .board-middle-row {
@@ -758,7 +972,14 @@ input:checked + .slider:before {
 
   .game-main {
     flex-grow: 1;
-    max-width: var(--board-max-size);
+    max-width: none;
+  }
+
+  .board-container {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
   }
 
   .game-sidebar {
