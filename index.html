@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimalist Chess</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- Main Container -->
+  <div class="app-container">
+
+    <!-- Main Menu Screen -->
+    <div id="main-menu" class="screen active">
+      <div class="menu-content">
+        <h1>CHESS</h1>
+        <div class="menu-buttons">
+          <button id="btn-pvp" class="btn primary-btn">
+            <i data-lucide="users"></i> Local Multiplayer
+          </button>
+          <button id="btn-pve-menu" class="btn primary-btn">
+            <i data-lucide="cpu"></i> Play Against AI
+          </button>
+          <button id="btn-resume" class="btn secondary-btn hidden">
+            <i data-lucide="play"></i> Resume Saved Game
+          </button>
+          <button id="btn-settings-menu" class="btn secondary-btn">
+            <i data-lucide="settings"></i> Settings
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PVE Options Menu -->
+    <div id="pve-menu" class="screen">
+      <div class="menu-content">
+        <h2>AI Opponent Setup</h2>
+
+        <div class="option-group">
+          <span class="option-label">Difficulty:</span>
+          <div class="button-toggle-group" id="difficulty-toggle">
+            <button class="toggle-btn active" data-difficulty="1">Easy</button>
+            <button class="toggle-btn" data-difficulty="2">Medium</button>
+            <button class="toggle-btn" data-difficulty="3">Hard</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <span class="option-label">Your Color:</span>
+          <div class="button-toggle-group" id="color-toggle">
+            <button class="toggle-btn active" data-color="white">White</button>
+            <button class="toggle-btn" data-color="black">Black</button>
+            <button class="toggle-btn" data-color="random">Random</button>
+          </div>
+        </div>
+
+        <div class="menu-buttons">
+          <button id="btn-start-pve" class="btn primary-btn">
+            <i data-lucide="play"></i> Start Game
+          </button>
+          <button id="btn-back-pve" class="btn secondary-btn">
+            <i data-lucide="arrow-left"></i> Back to Menu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Menu -->
+    <div id="settings-menu" class="screen">
+      <div class="menu-content">
+        <h2>Settings</h2>
+
+        <div class="option-group row">
+          <span class="option-label"><i data-lucide="volume-2"></i> Sound Effects</span>
+          <label class="switch">
+            <input type="checkbox" id="setting-sound" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="option-group row">
+          <span class="option-label"><i data-lucide="palette"></i> Dark Board Theme</span>
+          <select id="board-theme">
+            <option value="classic">Classic Wood / Green</option>
+            <option value="blue">Ocean Blue</option>
+            <option value="charcoal">Charcoal / Dark</option>
+            <option value="brown">Standard Walnut</option>
+          </select>
+        </div>
+
+        <div class="menu-buttons">
+          <button id="btn-back-settings" class="btn primary-btn">
+            <i data-lucide="check"></i> Save & Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+      <!-- Top Status Bar -->
+      <header class="game-header">
+        <button id="btn-pause" class="icon-btn" title="Pause Menu">
+          <i data-lucide="menu"></i>
+        </button>
+
+        <div class="turn-indicator">
+          <span id="turn-dot" class="dot white-dot"></span>
+          <span id="turn-text">White's Turn</span>
+        </div>
+
+        <div class="header-right-buttons">
+          <button id="btn-undo" class="icon-btn" title="Undo Move">
+            <i data-lucide="undo-2"></i>
+          </button>
+          <button id="btn-redo" class="icon-btn" title="Redo Move">
+            <i data-lucide="redo-2"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Game Area -->
+      <main class="game-main">
+        <!-- Captured Pieces: Top (Opponent / Black if Player is White) -->
+        <div class="captured-bar" id="captured-top">
+          <div class="captured-label">Captured:</div>
+          <div class="captured-icons" id="captured-top-icons"></div>
+          <div class="score-diff" id="score-top-diff"></div>
+        </div>
+
+        <!-- Chess Board Wrapper -->
+        <div class="board-wrapper">
+          <!-- Files (A-H) Top -->
+          <div class="coord-row files top-files"></div>
+
+          <div class="board-middle-row">
+            <!-- Ranks (1-8) Left -->
+            <div class="coord-col ranks left-ranks"></div>
+
+            <!-- The Grid -->
+            <div id="chessboard" class="chessboard classic"></div>
+
+            <!-- Ranks (1-8) Right -->
+            <div class="coord-col ranks right-ranks"></div>
+          </div>
+
+          <!-- Files (A-H) Bottom -->
+          <div class="coord-row files bottom-files"></div>
+        </div>
+
+        <!-- Captured Pieces: Bottom (Player / White if Player is White) -->
+        <div class="captured-bar" id="captured-bottom">
+          <div class="captured-label">Captured:</div>
+          <div class="captured-icons" id="captured-bottom-icons"></div>
+          <div class="score-diff" id="score-bottom-diff"></div>
+        </div>
+      </main>
+
+      <!-- Sidebar / Bottom drawer for Move History & Status info -->
+      <aside class="game-sidebar">
+        <div class="sidebar-section">
+          <h3>Move History</h3>
+          <div class="move-history-container">
+            <table class="move-history-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>White</th>
+                  <th>Black</th>
+                </tr>
+              </thead>
+              <tbody id="move-history-list">
+                <!-- Move log will be appended here dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Pause Overlays / Modals -->
+    <div id="pause-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2>Game Paused</h2>
+        <div class="menu-buttons">
+          <button id="btn-resume-game" class="btn primary-btn">
+            <i data-lucide="play"></i> Resume Game
+          </button>
+          <button id="btn-restart-game" class="btn secondary-btn">
+            <i data-lucide="rotate-ccw"></i> Restart Game
+          </button>
+          <button id="btn-exit-to-menu" class="btn danger-btn">
+            <i data-lucide="log-out"></i> Main Menu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div id="gameover-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 id="gameover-title">Game Over</h2>
+        <p id="gameover-reason">Checkmate!</p>
+        <div class="menu-buttons">
+          <button id="btn-restart-over" class="btn primary-btn">
+            <i data-lucide="rotate-ccw"></i> Play Again
+          </button>
+          <button id="btn-exit-over" class="btn secondary-btn">
+            <i data-lucide="log-out"></i> Main Menu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pawn Promotion Overlay -->
+    <div id="promotion-modal" class="modal-overlay non-closable">
+      <div class="modal-content text-center">
+        <h2>Promote Pawn</h2>
+        <p>Choose piece to promote to:</p>
+        <div class="promotion-choices" id="promotion-choices-container">
+          <!-- Choices will be rendered dynamically based on player color -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 id="confirm-title">Are you sure?</h2>
+        <p id="confirm-desc">This will overwrite your existing saved game.</p>
+        <div class="menu-buttons row-buttons">
+          <button id="btn-confirm-yes" class="btn danger-btn">Yes</button>
+          <button id="btn-confirm-no" class="btn secondary-btn">No</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Game Scripts -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
